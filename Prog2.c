@@ -26,30 +26,38 @@ void display(node* head){
     printf("NULL\n");
 }
 
-void create_node(node* head){
-    int x;
-    char c;
-    node* temp = head;
-    printf("Enter the value for the node : ");
-    scanf("%d", &x);
-    head->info = x;
+node* create_node(int data){
 
-    printf("Do you want to add more nodes : If yes then type 'y' else type 'n' : ");
-    // while ((c = getchar()) != '\n' && c != EOF);
-    scanf(" %c", &c); // Use a space before %c to skip leading whitespace
+    node* newnode = (node*) malloc(sizeof(node));
+    if(newnode){
+        newnode->info = data;
+        newnode->next = NULL;
+    }
+    return newnode;
+    // int x;
+    // char c;
+    // node* temp = head;
+    // printf("Enter the value for the node : ");
+    // scanf("%d", &x);
+    // head->info = x;
+
+
+    // printf("Do you want to add more nodes : If yes then type 'y' else type 'n' : ");
+    // // while ((c = getchar()) != '\n' && c != EOF);
+    // scanf(" %c", &c); // Use a space before %c to skip leading whitespace
     
-    if(c == 'y' || c == 'Y'){
-        temp = (node*)malloc(sizeof(node));
-        head->next = temp;
-        create_node(temp);
-    }
-    else{
-        head->next = NULL;
-    }
-    // else{
-    //     printf("\n\n*******Please enter a valid input type!!*******\n\n");
-    //     while ((c = getchar()) != '\n' && c != EOF);
+    // if(c == 'y' || c == 'Y'){
+    //     temp = (node*)malloc(sizeof(node));
+    //     head->next = temp;
+    //     create_node(temp);
     // }
+    // else{
+    //     head->next = NULL;
+    // }
+    // // else{
+    // //     printf("\n\n*******Please enter a valid input type!!*******\n\n");
+    // //     while ((c = getchar()) != '\n' && c != EOF);
+    // // }
 
 }
 
