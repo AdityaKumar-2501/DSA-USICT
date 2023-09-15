@@ -20,24 +20,23 @@ void create_node(node* head){
     scanf("%d", &x);
     head->info = x;
 
-    while(1)
-    {    
-        printf("Do you want to add more nodes : If yes then type 'y' else type 'n' : ");
-        while ((c = getchar()) != '\n' && c != EOF);
-        scanf(" %c", &c); // Use a space before %c to skip leading whitespace
-        
-        if(c == 'y' || c == 'Y'){
-            temp = (node*)malloc(sizeof(node));
-            head->next = temp;
-            create_node(temp);
-        }else if(c == 'n' || c == 'N'){
-            head->next = NULL;
-            break;
-        }
-        else{
-            printf("\n\n*******Please enter a valid input type!!*******\n\n");
-        }
+    printf("Do you want to add more nodes : If yes then type 'y' else type 'n' : ");
+    // while ((c = getchar()) != '\n' && c != EOF);
+    scanf(" %c", &c); // Use a space before %c to skip leading whitespace
+    
+    if(c == 'y' || c == 'Y'){
+        temp = (node*)malloc(sizeof(node));
+        head->next = temp;
+        create_node(temp);
     }
+    else if(c == 'n' || c == 'N'){
+        head->next = NULL;
+    }
+    else{
+        printf("\n\n*******Please enter a valid input type!!*******\n\n");
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
 }
 
 void insert_at_begin(node* head){
@@ -65,6 +64,11 @@ void delete_at_location(node* head){
 }
 
 void display(node* head){
+    if (head == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
     node* temp = head;
     while(temp != NULL){
         printf("%d -> ", temp->info);
