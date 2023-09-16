@@ -135,7 +135,7 @@ int main()
         printf("enter position where node is to be inserted (0-based Indexing): ");
         scanf("%d", &position);
         printf("Are you sure you want to insert node at %d position (y/n) : ",position);
-        scanf(" %c", position_choice);
+        scanf(" %c", &position_choice);
         if(position_choice == 'n'){
             printf("Renter position of node where you want to insert node : ");
             scanf(" %d", &position);
