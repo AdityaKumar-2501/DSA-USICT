@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct Node
 {
     int info;
@@ -29,12 +30,12 @@ void display(Node *head)
     printf("NULL\n");
 }
 
-Node* insert_at_end(Node *head, int data)
+Node *insert_at_end(Node *head, int data)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->info = data;
     newNode->next = NULL;
-    
+
     if (head == NULL)
     {
         // If the list is empty, the new node becomes the head.
@@ -50,7 +51,72 @@ Node* insert_at_end(Node *head, int data)
         // Attach the new node to the last node.
         temp->next = newNode;
     }
-    
+
+    return head;
+}
+
+Node *insert_at_begin(Node *head, int data)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->info = data;
+
+    if (head == NULL)
+    {
+        // If the list is empty, the new node becomes the head.
+        newNode->next = NULL;
+        head = newNode;
+    }
+    else
+    {
+        newNode->next = head;
+        head = newNode;
+    }
+
+    return head;
+}
+
+Node *insert_at_location(Node *head, int data,int location)
+{
+    if(location < 0){
+        printf("\nInvalid Position\n");
+        return head;
+    }
+    else if(location == 0){
+        head = insert_at_begin(head,data);
+        return head;
+    }
+
+
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->info = data;
+
+    if (head == NULL)
+    {
+        if(location > 0){
+            printf("\nInvalid Position\n");
+            return head;
+        }
+        // If the list is empty, the new node becomes the head.
+        newNode->next = NULL;
+        head = newNode;
+    }
+    else
+    {
+        int count = 0;
+        Node *temp = head;
+        while (temp != NULL && count < location-1)
+        {
+            temp = temp->next;
+            count++;
+        }
+        if (temp == NULL) {
+            printf("Invalid position.\n");
+            return head;
+        }
+        newNode->next = temp->next;
+        temp->next = newNode;
+    }
+
     return head;
 }
 
@@ -59,30 +125,57 @@ int main()
 
     Node *head = (Node *)malloc(sizeof(Node));
     head = NULL;
-    int data,choice,position;
-    char ch;
+    int data, choice, position;
+    char ch,position_choice;
 
-    while(1){
+    while (1)
+    {
         printf("Enter data for node : ");
-        scanf("%d",&data);
-        head = insert_at_end(head,data);
+        scanf("%d", &data);
+        printf("enter position where node is to be inserted (0-based Indexing): ");
+        scanf("%d", &position);
+        printf("Are you sure you want to insert node at %d position (y/n) : ",position);
+        scanf(" %c", position_choice);
+        if(position_choice == 'n'){
+            printf("Renter position of node where you want to insert node : ");
+            scanf(" %d", &position);
+        }else if (position_choice != 'y')
+        {
+            printf("Invalid Input\n");
+            printf("Starting Again...\n");
+            continue;
+        }
+        
+        // head = insert_at_begin(head, data);
+        head = insert_at_location(head, data,position);
+
         printf("Nodes after insertion : ");
         display(head);
         printf("Do you want to insert more nodes (y/n): ");
         scanf(" %c", &ch);
-        if(ch == 'y'){
+        if (ch == 'y')
+        {
             continue;
-        }else if(ch == 'n'){
+        }
+        else if (ch == 'n')
+        {
             printf("Are you sure you doesn't want to insert more nodes (y/n): ");
             scanf(" %c", &ch);
-            if(ch == 'y'){
+            if (ch == 'y')
+            {
                 break;
-            }else if (ch == 'n'){
+            }
+            else if (ch == 'n')
+            {
                 continue;
-            }else{
+            }
+            else
+            {
                 printf("Invalid Input\n");
             }
-        }else{
+        }
+        else
+        {
             printf("Invalid Input\n");
         }
     }
