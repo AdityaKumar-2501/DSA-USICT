@@ -34,48 +34,34 @@ node* create_node(int data){
         newnode->next = NULL;
     }
     return newnode;
-    // int x;
-    // char c;
-    // node* temp = head;
-    // printf("Enter the value for the node : ");
-    // scanf("%d", &x);
-    // head->info = x;
-
-
-    // printf("Do you want to add more nodes : If yes then type 'y' else type 'n' : ");
-    // // while ((c = getchar()) != '\n' && c != EOF);
-    // scanf(" %c", &c); // Use a space before %c to skip leading whitespace
-    
-    // if(c == 'y' || c == 'Y'){
-    //     temp = (node*)malloc(sizeof(node));
-    //     head->next = temp;
-    //     create_node(temp);
-    // }
-    // else{
-    //     head->next = NULL;
-    // }
-    // // else{
-    // //     printf("\n\n*******Please enter a valid input type!!*******\n\n");
-    // //     while ((c = getchar()) != '\n' && c != EOF);
-    // // }
-
 }
 
 void insert_at_begin(node* head, int data){
     // if(head->next == NULL){
-    //     create_node(head);
+    //     create_node(data);
     // }
-    node* temp = head;
-    temp = (node*)malloc(sizeof(node));
-    temp->next = head;
-    temp->info = data;
-    head = temp;
-    printf("Link list after insertion at begin \n");
+    // node* temp = head;
+    // temp = (node*)malloc(sizeof(node));
+    // temp->next = head;
+    // temp->info = data;
+    // head = temp;
+    // printf("Link list after insertion at begin \n");
     // display(head);
+    // node* head = create_node(data);
+
 }
 
-void insert_at_end(node* head){
-
+void insert_at_end(node* head,int data){
+    node* newNode = create_node(data);
+    node* temp = head;
+    // if(head == NULL || head->next == NULL){
+    //     create_node(data);
+    // }
+    while(temp != NULL){
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->next = NULL;
 }
 
 void insert_at_location(node* head){
@@ -101,8 +87,13 @@ int main(){
 
     node* head = (node*)malloc(sizeof(node));
     // create_node(head);
-    insert_at_begin(head,3);
+    // insert_at_begin(head,3);
     int choice, data, position;
+    insert_at_begin(head,5);
+    insert_at_begin(head,6);
+    insert_at_begin(head,7);
+
+
     display(head);
 
     // while (1) {
