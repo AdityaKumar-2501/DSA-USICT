@@ -405,37 +405,43 @@ Node *delete_at_location_cir(Node *head, int location)
     }
     else if (location == 0)
     {
-        // Insert at the beginning if location is 0.
+        // Delete the first node if location is 0.
         return delete_at_begin_cir(head);
     }
 
     if (head == NULL)
     {
         printf("List is empty!\n");
+        return head;
     }
-    else
-    {
-        int count = 0;
-        Node* prev = head;
 
-        do
+    int count = 0;
+    Node* prev = head;
+
+    do
+    {
+        if (count == location - 1)
         {
-            if (count == location - 1)
-            {
-                Node *curr = prev->next;
-                prev->next = curr->next;
-                free(curr);
+            Node *curr = prev->next;
+            prev->next = curr->next;
+
+            if (curr == head) {
+                printf("Invalid position.\n");
                 return head;
             }
-            prev = prev->next;
-            count++;
-        } while (prev->next != head);
 
-        printf("Invalid position.\n");
-    }
+            free(curr);
+            return head;
+        }
+        prev = prev->next;
+        count++;
+    } while (prev->next != head);
 
+    printf("Invalid position.\n");
     return head;
 }
+
+
 
 
 //  --------------------- Menu of Singular Linked List --------------------------------
@@ -459,20 +465,33 @@ void MenuOfSll()
         printf("8. Back to Main Menu\n");
         printf("9. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        if(scanf("%d", &choice) != 1){
+            printf("\n***** Please Enter a integer value ****** \n");
+            while (getchar() != '\n'); // Clear the input buffer
+            continue;
+        }
 
+        
         switch (choice)
         {
         case 1:
             printf("Enter data to insert at the beginning: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             head = insert_at_begin(head, data);
             printf("Nodes after insertion : ");
             display(head);
             break;
         case 2:
             printf("Enter data to insert at the end: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             head = insert_at_end(head, data);
             printf("Nodes after insertion : ");
             display(head);
@@ -480,15 +499,27 @@ void MenuOfSll()
         case 3:
         restart:
             printf("Enter data to insert: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             printf("Enter the position (0-based) to insert at: ");
-            scanf("%d", &position);
+            if(scanf("%d", &position) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            };
             printf("Are you sure you want to insert node at %d position (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
                 printf("Renter position of node where you want to insert node : ");
-                scanf(" %d", &position);
+                if(scanf("%d", &position) != 1){
+                    printf("\n***** Please Enter a integer value ****** \n");
+                    while (getchar() != '\n'); // Clear the input buffer
+                    continue;
+                };
             }
             else if (position_choice != 'y')
             {
@@ -513,13 +544,21 @@ void MenuOfSll()
         case 6:
         del:
             printf("Enter the position (0-based) to delete node at: ");
-            scanf("%d", &position);
+            if(scanf("%d", &position) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             printf("Are you sure you want to insert node at %d position (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
                 printf("Renter position of node where you want to delete node : ");
-                scanf(" %d", &position);
+                if(scanf(" %d", &position) != 1){
+                    printf("\n***** Please Enter a integer value ****** \n");
+                    while (getchar() != '\n'); // Clear the input buffer
+                    continue;
+                }
             }
             else if (position_choice != 'y')
             {
@@ -537,7 +576,6 @@ void MenuOfSll()
             break;
         case 8:
             printf("Are you sure you want to go back to Main Menu?\n**** Remember you'll lost all your data **** (y/n): ");
-            
             scanf(" %c", &c);
             if (c == 'y')
                 mainMenu();
@@ -581,20 +619,32 @@ void MenuOfCll()
         printf("8. Back to Main Menu\n");
         printf("9. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        if(scanf("%d", &choice) != 1){
+            printf("\n***** Please Enter a integer value ****** \n");
+            while (getchar() != '\n'); // Clear the input buffer
+            continue;
+        }
 
         switch (choice)
         {
         case 1:
             printf("Enter data to insert at the beginning: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             head = insert_at_begin_cir(head, data);
             printf("Nodes after insertion : ");
             display_circular(head);
             break;
         case 2:
             printf("Enter data to insert at the end: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             head = insert_at_end_cir(head, data);
             printf("Nodes after insertion : ");
             display_circular(head);
@@ -602,15 +652,27 @@ void MenuOfCll()
         case 3:
         restart:
             printf("Enter data to insert: ");
-            scanf("%d", &data);
+            if(scanf("%d", &data) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             printf("Enter the position (0-based) to insert at: ");
-            scanf("%d", &position);
+            if(scanf("%d", &position) != 1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             printf("Are you sure you want to insert node at %d position (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
                 printf("Renter position of node where you want to insert node : ");
-                scanf(" %d", &position);
+                if(scanf(" %d", &position) != 1){
+                    printf("\n***** Please Enter a integer value ****** \n");
+                    while (getchar() != '\n'); // Clear the input buffer
+                    continue;
+                };
             }
             else if (position_choice != 'y')
             {
@@ -635,13 +697,21 @@ void MenuOfCll()
         case 6:
         del:
             printf("Enter the position (0-based) to delete node at: ");
-            scanf("%d", &position);
+            if(scanf("%d", &position)!=1){
+                printf("\n***** Please Enter a integer value ****** \n");
+                while (getchar() != '\n'); // Clear the input buffer
+                continue;
+            }
             printf("Are you sure you want to insert node at %d position (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
                 printf("Renter position of node where you want to delete node : ");
-                scanf(" %d", &position);
+                if(scanf(" %d", &position) != 1){
+                    printf("\n***** Please Enter a integer value ****** \n");
+                    while (getchar() != '\n'); // Clear the input buffer
+                    continue;
+                }
             }
             else if (position_choice != 'y')
             {
@@ -693,13 +763,19 @@ void mainMenu()
 
     while (1)
     {
+
         printf("\n================================ Main Menu =============================\n");
         printf("\nSelect type of linked list you want to do operations on :\n");
         printf("1. Singular Linked List\n");
         printf("2. Circular Singular Linked List\n");
         printf("3. Exit\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("\n***** Please Enter a integer value ****** \n");
+            while (getchar() != '\n'); // Clear the input buffer
+            continue;
+        }
         switch (choice)
         {
         case 1:
@@ -711,8 +787,10 @@ void mainMenu()
         case 3:
             printf("Are you sure you want to exit program? (y/n) : ");
             scanf(" %c", &c);
-            if (c == 'y')
+            if (c == 'y'){
+                printf("\nExiting the program...\n");
                 exit(0);
+            }
             else if (c != 'n')
                 printf("\nInvalid Input!\n");
             break;
