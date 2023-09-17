@@ -298,8 +298,8 @@ Node *insert_at_location_cir(Node *head, int data, int location)
     }
     else if (location == 0)
     {
-        head = insert_at_begin_cir(head, data);
-        return head;
+        // Insert at the beginning if location is 0.
+        return insert_at_begin_cir(head, data);
     }
 
     Node *newNode = (Node *)malloc(sizeof(Node));
@@ -307,31 +307,131 @@ Node *insert_at_location_cir(Node *head, int data, int location)
 
     if (head == NULL)
     {
-        if (location > 0)
+        if (location == 0)
+        {
+            // If the list is empty and location is 0, the new node becomes the head.
+            head = newNode;
+            newNode->next = head;
+        }
+        else
         {
             printf("\nInvalid Position\n");
-            return head;
         }
-        // If the list is empty, the new node becomes the head.
-        head = newNode;
-        newNode->next = head;
     }
     else
     {
         int count = 0;
         Node *temp = head;
-        while (temp != head && count < location - 1)
+
+        do
         {
+            if (count == location - 1)
+            {
+                newNode->next = temp->next;
+                temp->next = newNode;
+                return head;
+            }
             temp = temp->next;
             count++;
-        }
-        if (temp == head)
+        } while (temp != head);
+
+        printf("Invalid position.\n");
+    }
+
+    return head;
+}
+
+
+Node *delete_at_end_cir(Node *head)
+{
+    if (head == NULL)
+    {
+        printf("List is empty!!\n");
+        return head;
+    }
+    else if (head->next == head)
+    {
+        free(head);
+        head = NULL;
+    }
+    else
+    {
+        Node *temp = head;
+        while (temp->next->next != head)
         {
-            printf("Invalid position.\n");
-            return head;
+            temp = temp->next;
         }
-        newNode->next = temp->next;
-        temp->next = newNode;
+        free(temp->next);
+        temp->next = head;
+    }
+
+    return head;
+}
+
+Node *delete_at_begin_cir(Node *head)
+{
+    if (head == NULL)
+    {
+        printf("List is empty!!\n");
+        return head;
+    }
+    else if (head->next == head)
+    {
+        free(head);
+        head = NULL;
+    }
+    else
+    {
+        Node *temp = head;
+        while (temp->next != head)
+        {
+            temp = temp->next;
+        }
+        temp->next = head->next;
+        free(head);
+        head = temp->next;
+
+    }
+
+    return head;
+}
+
+Node *delete_at_location_cir(Node *head, int location)
+{
+    if (location < 0)
+    {
+        printf("\nInvalid Position\n");
+        return head;
+    }
+    else if (location == 0)
+    {
+        // Insert at the beginning if location is 0.
+        return delete_at_begin_cir(head);
+    }
+
+    if (head == NULL)
+    {
+        printf("List is empty!\n");
+    }
+    else
+    {
+        int count = 0;
+        Node* prev = head;
+
+        do
+        {
+            if (count == location - 1)
+            {
+                Node *curr = prev->next;
+                prev->next = curr->next;
+                free(curr);
+                return head;
+            }
+            prev = prev->next;
+            count++;
+        } while (prev->next != head);
+
+        printf("Invalid position.\n");
     }
 
     return head;
@@ -432,11 +532,19 @@ void MenuOfSll()
             display(head);
             break;
         case 7:
-            printf("Linked List till now : ");
+            printf("\nLinked List till now : ");
             display(head);
             break;
         case 8:
-            mainMenu();
+            printf("Are you sure you want to go back to Main Menu?\n**** Remember you'll lost all your data **** (y/n): ");
+            
+            scanf(" %c", &c);
+            if (c == 'y')
+                mainMenu();
+            else if (c == 'n')
+                continue;
+            else
+                printf("\nInvalid Input!\n");
             break;
         case 9:
             printf("Are you sure you want to exit program? (y/n) : ");
@@ -462,7 +570,7 @@ void MenuOfCll()
     char c, position_choice;
     while (1)
     {
-        printf("\nSingular Linked List Operations:\n\n");
+        printf("\nCircular Singular Linked List Operations:\n\n");
         printf("1. Insert at the beginning\n");
         printf("2. Insert at the end\n");
         printf("3. Insert at a specific location\n");
@@ -510,17 +618,17 @@ void MenuOfCll()
                 printf("Starting Again...\n");
                 goto restart;
             }
-            head = insert_at_location(head, data, position);
+            head = insert_at_location_cir(head, data, position);
             printf("Nodes after insertion : ");
             display_circular(head);
             break;
         case 4:
-            head = delete_at_begin(head);
+            head = delete_at_begin_cir(head);
             printf("Nodes after deletion : ");
             display_circular(head);
             break;
         case 5:
-            head = delete_at_end(head);
+            head = delete_at_end_cir(head);
             printf("Nodes after deletion : ");
             display_circular(head);
             break;
@@ -541,16 +649,23 @@ void MenuOfCll()
                 printf("Starting Again...\n");
                 goto del;
             }
-            head = delete_at_location(head, position);
+            head = delete_at_location_cir(head, position);
             printf("Nodes after insertion : ");
             display_circular(head);
             break;
         case 7:
-            printf("Linked List till now : ");
+            printf("\nLinked List till now : ");
             display_circular(head);
             break;
         case 8:
-            mainMenu();
+            printf("Are you sure you want to go back to Main Menu?\n**** Remember you'll lost all your data **** (y/n): ");
+            scanf(" %c", &c);
+            if (c == 'y')
+                mainMenu();
+            else if (c == 'n')
+                continue;
+            else
+                printf("\nInvalid Input!\n");
             break;
         case 9:
             printf("Are you sure you want to exit program? (y/n) : ");
@@ -578,6 +693,7 @@ void mainMenu()
 
     while (1)
     {
+        printf("\n================================ Main Menu =============================\n");
         printf("\nSelect type of linked list you want to do operations on :\n");
         printf("1. Singular Linked List\n");
         printf("2. Circular Singular Linked List\n");
@@ -609,111 +725,5 @@ void mainMenu()
 int main()
 {
     mainMenu();
-    // Node *head = (Node *)malloc(sizeof(Node));
-    // head = NULL;
-    // int data, choice, position;
-    // char ch,position_choice;
-
-    // while (1)
-    // {
-    //     printf("\nSelect type of linked list you want to do operations on :\n");
-    //     printf("1. Singular Linked List\n");
-    //     printf("2. Circular Singular Linked List\n");
-    //     printf("3. Exit\n");
-    //     printf("Enter your choice: ");
-    //     scanf("%d", &choice);
-    //     switch (choice) {
-    //         case 1:
-    //             MenuOfSll();
-    //             break;
-    //         case 2:
-    //             MenuOfCll();
-    //             break;
-    //         case 3:
-    //             // Free memory and exit
-    //             while (head != NULL) {
-    //                 Node* temp = head;
-    //                 head = head->next;
-    //                 free(temp);
-    //             }
-    //             exit(0);
-    //         default:
-    //             printf("Invalid choice. Please try again.\n");
-    //     }
-
-    //     // printf("Enter data for node : ");
-    //     // scanf("%d", &data);
-    //     // printf("enter position where node is to be inserted (0-based Indexing): ");
-    //     // scanf("%d", &position);
-    //     // printf("Are you sure you want to insert node at %d position (y/n) : ",position);
-    //     // scanf(" %c", &position_choice);
-    //     // if(position_choice == 'n'){
-    //     //     printf("Renter position of node where you want to insert node : ");
-    //     //     scanf(" %d", &position);
-    //     // }else if (position_choice != 'y')
-    //     // {
-    //     //     printf("Invalid Input\n");
-    //     //     printf("Starting Again...\n");
-    //     //     continue;
-    //     // }
-
-    //     // head = insert_at_begin(head, data);
-    //     head = insert_at_end(head, data);
-    //     // head = insert_at_location(head, data,position);
-
-    //     printf("Nodes after insertion : ");
-    //     display(head);
-    //     printf("Do you want to insert more nodes (y/n): ");
-    //     scanf(" %c", &ch);
-    //     if (ch == 'y')
-    //     {
-    //         continue;
-    //     }
-    //     else if (ch == 'n')
-    //     {
-    //         printf("Are you sure you doesn't want to insert more nodes (y/n): ");
-    //         scanf(" %c", &ch);
-    //         if (ch == 'y')
-    //         {
-    //             break;
-    //         }
-    //         else if (ch == 'n')
-    //         {
-    //             continue;
-    //         }
-    //         else
-    //         {
-    //             printf("Invalid Input\n");
-    //         }
-    //     }
-    //     else
-    //     {
-    //         printf("Invalid Input\n");
-    //     }
-    // }
-    // // head = delete_at_begin(head);
-    // // display(head);
-
-    // // head = delete_at_begin(head);
-    // // display(head);
-    // // head = delete_at_begin(head);
-
-    // printf("enter position of delete node : ");
-    // scanf(" %d", &position);
-    // head = delete_at_location(head,position);
-    // display(head);
-
-    // printf("enter position of delete node : ");
-    // scanf(" %d", &position);
-    // head = delete_at_location(head,position);
-    // display(head);
-
-    // printf("enter position of delete node : ");
-    // scanf(" %d", &position);
-    // head = delete_at_location(head,position);
-    // display(head);
-
-    // printf("\nFinal Linked List : ");
-    // display(head);
     return 0;
 }
