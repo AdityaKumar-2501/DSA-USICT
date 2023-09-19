@@ -77,6 +77,7 @@ Node* Rev(Node *head){
 int main(){
     Node *head = (Node *)malloc(sizeof(Node));
     head = NULL;
+    int count = 0;
     int data;
     char c;
 
@@ -89,6 +90,7 @@ int main(){
             continue;
         }
         head = insert_at_end(head, data);
+        count++;
         printf("Nodes after insertion : ");
         display(head);
         ask:
@@ -102,6 +104,8 @@ int main(){
             goto ask;
         }
     }
+
+    printf("\nTotal number of nodes inserted : %d\n",count);
 
     printf("\n**** Reverse of the linked list ******\n");
     head = Rev(head);
