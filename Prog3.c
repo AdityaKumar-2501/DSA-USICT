@@ -104,6 +104,7 @@ Node *insert_at_begin(Node *head, int data)
     else
     {
         newNode->next = head;
+        head->prev = newNode;
         head = newNode;
     }
 
