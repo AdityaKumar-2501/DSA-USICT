@@ -6,7 +6,6 @@
 
 /*  @TODO:
     display_rev not working properly
-    insert and delete at specified location is not working properly
     circular part is not started yet
 */
 
@@ -122,24 +121,21 @@ Node *insert_at_location(Node *head, int data, int location)
     Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->info = data;
 
-    while (temp != NULL)
-    {
-        if (temp->info == location)
-        {
-            newNode->next = temp->next;
-            if (temp->next != NULL)
-            {
-                temp->next->prev = newNode;
-            }
-            newNode->prev = temp;
-            temp->next = newNode;
-            return head;
-        }
+    while(temp!= NULL && temp->info != location ){
         temp = temp->next;
     }
-
-    printf("Node with %d as data is not present in Linked List.\n", location);
-    free(newNode); // Free the newly allocated node since it's not inserted
+    if(temp == NULL){
+        printf("Node with %d as data is not present in Linked List.\n", location);
+        free(newNode); // Free the newly allocated node since it's not inserted
+    }else if (temp->next == NULL){
+        head = insert_at_end(head,data);
+    }
+    else{
+        newNode->next = temp->next;
+        newNode->prev = temp;
+        temp->next->prev = newNode;
+        temp->next = newNode;
+    }
     return head;
 }
 
@@ -210,7 +206,7 @@ Node *delete_at_location(Node *head, int location)
         return head;
     }
 
-    while(temp->info != location && temp!= NULL){
+    while(temp!= NULL && temp->info != location){
         temp = temp->next;
     }
     if(temp == NULL){
