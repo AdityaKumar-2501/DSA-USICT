@@ -5,8 +5,9 @@
 */
 
 /*  @TODO:
-    display_rev not working properly
-    circular part is not started yet
+    IN circular part
+    display rev not working properly error in insert at begin and end
+    insert at location and deletion are pending
 */
 
 
@@ -114,7 +115,7 @@ Node *insert_at_begin(Node *head, int data)
 Node *insert_at_location(Node *head, int data, int location)
 {
     if(head == NULL){
-        printf("Node with %d as data is not present in Linked List.\n", location);
+        printf("\nNode with %d as data is not present in Linked List.\n", location);
         return head;
     }
     Node *temp = head;
@@ -126,7 +127,7 @@ Node *insert_at_location(Node *head, int data, int location)
         temp = temp->next;
     }
     if(temp == NULL){
-        printf("Node with %d as data is not present in Linked List.\n", location);
+        printf("\nNode with %d as data is not present in Linked List.\n", location);
         free(newNode); // Free the newly allocated node since it's not inserted
     }else if (temp->next == NULL){
         head = insert_at_end(head,data);
@@ -194,7 +195,7 @@ Node *delete_at_location(Node *head, int location)
 {
     if (head == NULL)
     {
-        printf("Linked List is empty. Cannot delete.\n");
+        printf("\nLinked List is empty. Cannot delete.\n");
         return head;
     }
 
@@ -211,7 +212,7 @@ Node *delete_at_location(Node *head, int location)
         temp = temp->next;
     }
     if(temp == NULL){
-        printf("Node with %d as data is not present in Linked List.\n", location);
+        printf("\nNode with %d as data is not present in Linked List.\n", location);
         return head;
     }
     if(temp->next == NULL){
@@ -248,6 +249,25 @@ void display_circular(Node *head)
 
 }
 
+void display_circular_rev(Node* head){
+    if (head == NULL)
+    {
+        printf("List is empty.\n");
+        return;
+    }
+
+    Node *current = head->prev;
+
+
+    while(current != head){
+        printf("%d -> ", current->info);
+        current = current->prev;
+    }
+
+    printf("Head\n");
+}
+
+
 Node *insert_at_begin_cir(Node *head, int data)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
@@ -257,17 +277,16 @@ Node *insert_at_begin_cir(Node *head, int data)
     {
         // If the list is empty, the new node becomes the head.
         newNode->next = newNode;
+        newNode->prev = newNode;
         head = newNode;
     }
     else
     {
-        Node *temp = head;
-        while (temp->next != head)
-        {
-            temp = temp->next;
-        }
+        Node* last = head->prev;
         newNode->next = head;
-        temp->next = newNode;
+        newNode->prev = last;
+        last->next = newNode;
+        head->prev = newNode;
         head = newNode;
     }
 
@@ -282,19 +301,17 @@ Node *insert_at_end_cir(Node *head, int data)
     if (head == NULL)
     {
         // If the list is empty, the new node becomes the head.
+        newNode->next = newNode;
+        newNode->prev = newNode;
         head = newNode;
-        newNode->next = head;
     }
     else
     {
-        Node *temp = head;
-        while (temp->next != head)
-        {
-            temp = temp->next;
-        }
-        // Attach the new node to the last node.
-        temp->next = newNode;
+        Node* last = head->prev;
+        newNode->prev = last;
         newNode->next = head;
+        head->prev = newNode;
+        last->next = newNode;
     }
 
     return head;
@@ -625,15 +642,16 @@ void MenuOfCll()
     while (1)
     {
         printf("\nCircular Doubly Linked List Operations:\n\n");
-        printf("1. Insert at the beginning\n");
+         printf("1. Insert at the beginning\n");
         printf("2. Insert at the end\n");
         printf("3. Insert at a specific location\n");
         printf("4. Delete at the beginning\n");
         printf("5. Delete at the end\n");
         printf("6. Delete at a specific location\n");
         printf("7. Display the list\n");
-        printf("8. Back to Main Menu\n");
-        printf("9. Exit\n");
+        printf("8. Display the list in reverse order\n");
+        printf("9. Back to Main Menu\n");
+        printf("10. Exit\n");
         printf("Enter your choice: ");
         if(scanf("%d", &choice) != 1){
             printf("\n***** Please Enter a integer value ****** \n");
@@ -740,10 +758,14 @@ void MenuOfCll()
             display_circular(head);
             break;
         case 7:
-            printf("\nLinked List till now : ");
+            printf("\nCircular doubly Linked List till now : ");
             display_circular(head);
             break;
         case 8:
+            printf("\nCircular doubly Linked List in reverse order: ");
+            display_circular_rev(head);
+            break;
+        case 9:
             printf("Are you sure you want to go back to Main Menu?\n**** Remember you'll lost all your data **** (y/n): ");
             scanf(" %c", &c);
             if (c == 'y')
@@ -753,7 +775,7 @@ void MenuOfCll()
             else
                 printf("\nInvalid Input!\n");
             break;
-        case 9:
+        case 10:
             printf("Are you sure you want to exit program? (y/n) : ");
             scanf(" %c", &c);
             if (c == 'y')
