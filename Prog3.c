@@ -382,15 +382,9 @@ Node *delete_at_end_cir(Node *head)
     }
     else
     {
-        // Node *temp = head;
-        // while (temp->next->next != head)
-        // {
-        //     temp = temp->next;
-        // }
-        // free(temp->next);
-        // temp->next = head;
         Node *last = head->prev;
         last->prev->next = head;
+        head->prev = last->prev;
         free(head);
     }
 
@@ -412,13 +406,9 @@ Node *delete_at_begin_cir(Node *head)
     else
     {
         Node *temp = head;
-        while (temp->next != head)
-        {
-            temp = temp->next;
-        }
-        temp->next = head->next;
-        free(head);
+        head->prev->next = temp->next;
         head = temp->next;
+        free(temp);
     }
 
     return head;
