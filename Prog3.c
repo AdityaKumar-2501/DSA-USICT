@@ -430,20 +430,20 @@ Node *delete_at_location_cir(Node *head, int location)
         return head;
     }
 
-    while (temp->next != head && temp->info != location)
+    do
     {
         temp = temp->next;
-    }
-    if (temp->next == head)
+    } while (temp != head && temp->info != location);
+    if (temp == head)
     {
         printf("\nNode with %d as data is not present in Linked List.\n", location);
         return head;
     }
-    // if (temp->next == head)
-    // {
-    //     head = delete_at_end_cir(head);
-    //     return head;
-    // }
+    if (temp->next == head)
+    {
+        head = delete_at_end_cir(head);
+        return head;
+    }
 
     temp->prev->next = temp->next;
     temp->next->prev = temp->prev;
