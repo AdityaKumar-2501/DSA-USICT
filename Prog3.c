@@ -255,7 +255,6 @@ void display_circular(Node *head)
     printf("Head\n");
 }
 
-
 void display_circular_rev(Node *head)
 {
     if (head == NULL)
@@ -274,7 +273,6 @@ void display_circular_rev(Node *head)
 
     printf("Head\n");
 }
-
 
 Node *insert_at_begin_cir(Node *head, int data)
 {
@@ -385,7 +383,7 @@ Node *delete_at_end_cir(Node *head)
         Node *last = head->prev;
         last->prev->next = head;
         head->prev = last->prev;
-        free(head);
+        free(last);
     }
 
     return head;
@@ -407,6 +405,7 @@ Node *delete_at_begin_cir(Node *head)
     {
         Node *temp = head;
         head->prev->next = temp->next;
+        temp->next->prev = temp->prev;
         head = temp->next;
         free(temp);
     }
@@ -416,47 +415,39 @@ Node *delete_at_begin_cir(Node *head)
 
 Node *delete_at_location_cir(Node *head, int location)
 {
-    if (location < 0)
-    {
-        printf("\nInvalid Position\n");
-        return head;
-    }
-    else if (location == 0)
-    {
-        // Delete the first node if location is 0.
-        return delete_at_begin_cir(head);
-    }
-
     if (head == NULL)
     {
-        printf("List is empty!\n");
+        printf("\nLinked List is empty. Cannot delete.\n");
         return head;
     }
 
-    int count = 0;
-    Node *prev = head;
+    Node *temp = head;
 
-    do
+    // Check if we are deleting the head node
+    if (temp->info == location)
     {
-        if (count == location - 1)
-        {
-            Node *curr = prev->next;
-            prev->next = curr->next;
+        head = delete_at_begin_cir(head);
+        return head;
+    }
 
-            if (curr == head)
-            {
-                printf("Invalid position.\n");
-                return head;
-            }
+    while (temp->next != head && temp->info != location)
+    {
+        temp = temp->next;
+    }
+    if (temp->next == head)
+    {
+        printf("\nNode with %d as data is not present in Linked List.\n", location);
+        return head;
+    }
+    // if (temp->next == head)
+    // {
+    //     head = delete_at_end_cir(head);
+    //     return head;
+    // }
 
-            free(curr);
-            return head;
-        }
-        prev = prev->next;
-        count++;
-    } while (prev->next != head);
-
-    printf("Invalid position.\n");
+    temp->prev->next = temp->next;
+    temp->next->prev = temp->prev;
+    free(temp);
     return head;
 }
 
@@ -579,7 +570,7 @@ void MenuOfdll()
                     ; // Clear the input buffer
                 continue;
             }
-            printf("Are you sure you want to delete node at %d position (y/n) : ", position);
+            printf("Are you sure you want to delete node of data %d (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
@@ -745,7 +736,7 @@ void MenuOfCll()
             break;
         case 6:
         del:
-            printf("Enter the position (0-based) to delete node at: ");
+            printf("Enter the data of node you wish to delete : ");
             if (scanf("%d", &position) != 1)
             {
                 printf("\n***** Please Enter a integer value ****** \n");
@@ -753,7 +744,7 @@ void MenuOfCll()
                     ; // Clear the input buffer
                 continue;
             }
-            printf("Are you sure you want to delete node at %d position (y/n) : ", position);
+            printf("Are you sure you want to delete node of data %d (y/n) : ", position);
             scanf(" %c", &position_choice);
             if (position_choice == 'n')
             {
