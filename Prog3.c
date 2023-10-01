@@ -4,11 +4,6 @@
     on a double linked list and circular double linked list
 */
 
-/*  @TODO:
-    IN circular part
-    deletion are pending
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 
