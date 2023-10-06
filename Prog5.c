@@ -41,7 +41,7 @@ void pop(){
     top = top - 1;
 }
 
-void showTop(){
+void peep(){
     if(top == -1){
         printf("Stack is empty!\n");
         return;
@@ -82,7 +82,7 @@ int main(){
                 showStack();
                 break;
             case 3:
-                showTop();
+                peep();
                 break;
             case 4:
                 isEmpty();
