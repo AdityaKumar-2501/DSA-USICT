@@ -7,6 +7,7 @@
 #define SIZE 5
 
 // display of queue using array need to fix.
+// display of queue using linked list also need to fix.
 
 void mainMenu();
 // ----------------------- Queue using Array ------------------------------
