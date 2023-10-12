@@ -21,7 +21,7 @@ void showStack(){
 }
 
 void push(){
-    if(top == SIZE){
+    if(top == SIZE -1){
         printf("\nOVERFLOW !\n");
         return;
     }
