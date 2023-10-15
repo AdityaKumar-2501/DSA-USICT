@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #define SIZE 5
 
-// display of queue using array need to fix.
-// display of queue using linked list also need to fix.
 
 void mainMenu();
 // ----------------------- Queue using Array ------------------------------
@@ -26,14 +24,16 @@ int isEmpty() {
   return 0;
 }
 
-void display(){
-    if(isEmpty()){
+void display() {
+    if (isEmpty()) {
         printf("Queue is empty.\n");
-    }
-    else{
-        for(int i = front; i !=  rear; i = (i + 1) % SIZE){
+    } else {
+        int i = front;
+        do {
             printf("%d ", cir_queue[i]);
-        }
+            i = (i + 1) % SIZE;
+        } while (i != (rear + 1) % SIZE);
+        printf("\n");
     }
 }
 
@@ -94,18 +94,21 @@ void displayLL(){
         printf("%d ", temp->info);
         temp= temp->next;
     }while(temp !=head);
+    printf("\n");
 }
 
 void EnqueueLL(){
     int x;
     printf("Enter the data : ");
-    scanf("%d",&x);
+    scanf(" %d",&x);
     Node* newNode = (Node*) malloc(sizeof(Node));
     newNode->info = x;
 
-    if(isEmpty()){
+    if(head == NULL){
         head = newNode;
         tail = newNode;
+        newNode->next = head;
+        return;
     }
     newNode->next = head;
     tail->next = newNode;
@@ -121,7 +124,9 @@ void DequeueLL(){
         printf("Dequeued Element : %d\n", head->info);
         head = NULL;
         tail = NULL;
+        return;
     }
+    printf("Dequeued Element : %d\n", head->info);
     Node* temp = head;
     head = head->next;
     tail->next = head;

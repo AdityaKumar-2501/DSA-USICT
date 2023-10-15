@@ -1,3 +1,7 @@
+/*  ---------------PROBLEM STATEMENT ---------------
+    Implement Sparse Array.
+*/
+
 #include<stdio.h>
 
 int main(){
