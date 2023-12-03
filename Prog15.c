@@ -10,7 +10,7 @@
 
 void mainMenu();
 
-void print(int arr[], int n){
+void display(int arr[], int n){
     printf("\nArray After Sorting : ");
     for(int i=0; i<n; i++){
         printf("%d ", arr[i]);
@@ -30,18 +30,97 @@ void insertionSort(int arr[], int n){
     }
 }
 
-void mergeSort(int arr[], int n){
-    printf("NOT done yet\n");
+
+void merge(int arr[], int low, int mid, int high) {
+    int i = low;
+    int j = mid + 1;
+    int k = low;
+    
+    int n = high - low + 1;
+    int ans[n];
+
+    while (i <= mid && j <= high) {
+        if (arr[i] < arr[j]) {
+            ans[k] = arr[i];
+            i++;
+            k++;
+        } else {
+            ans[k] = arr[j];
+            j++;
+            k++;
+        }
+    }
+
+    // Copy the remaining elements from the left array
+    while (i <= mid) {
+        ans[k] = arr[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements from the right array
+    while (j <= high) {
+        ans[k] = arr[j];
+        j++;
+        k++;
+    }
+
+    // Copy all the values from the ans array to the actual array
+    for (int i = low; i <= high; i++) {
+        arr[i] = ans[i];
+    }
+}
+
+
+void mergeSort(int arr[], int low, int high){
+
+    if(low<high){
+        int mid = low + (high-low)/2;
+        mergeSort(arr, low, mid);
+        mergeSort(arr, mid+1, high);
+        merge(arr, low, mid, high);
+    }
 }
 
 void heapSort(int arr[], int n){
     printf("NOT done yet\n");
-    
+
 }
 
-void quickSort(int arr[], int n){
-    printf("NOT done yet\n");
-    
+int partition(int arr[], int l, int h){
+    int pivot = arr[l];
+    int i = l+1;
+    int j = h;
+    while(i<=j){
+        while(arr[i]<= pivot){
+            i++;
+        }
+
+        while(arr[j] > pivot){
+            j--;
+        }
+
+        if(i<j){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    // swaping the pivot with jth index element
+    int temp = arr[l];
+    arr[l] = arr[j];
+    arr[j] = temp;
+
+    return j;
+}
+
+void quickSort(int arr[],int l,int h){
+    if(l<h){
+        int partitionIndex = partition(arr,l,h);
+        quickSort(arr,l, partitionIndex-1);
+        quickSort(arr,partitionIndex+1,h);
+    }
 }
 
 void countingSort(int arr[], int n){
@@ -58,8 +137,6 @@ void bucketSort(int arr[], int n){
     printf("NOT done yet\n");
     
 }
-
-
 
 
 
@@ -87,7 +164,7 @@ void mainMenu()
                 scanf("%d", &arr[i]);
             }
             insertionSort(arr,n);
-            print(arr,n);
+            display(arr,n);
             break;
         case 2:
             printf("Enter the size of the array : ");
@@ -96,7 +173,8 @@ void mainMenu()
             for(int i = 0; i < n; i++){
                 scanf("%d", &arr[i]);
             }
-            insertionSort(arr,n);
+            mergeSort(arr,0,n-1);
+            display(arr,n);
             break;
         case 3:
             printf("Enter the size of the array : ");
@@ -105,7 +183,7 @@ void mainMenu()
             for(int i = 0; i < n; i++){
                 scanf("%d", &arr[i]);
             }
-            insertionSort(arr,n);
+            
             break;
         case 4:
             printf("Enter the size of the array : ");
@@ -114,7 +192,8 @@ void mainMenu()
             for(int i = 0; i < n; i++){
                 scanf("%d", &arr[i]);
             }
-            insertionSort(arr,n);
+            quickSort(arr,0,n-1);
+            display(arr,n);
             break;
         case 5:
             printf("Enter the size of the array : ");
