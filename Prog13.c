@@ -210,14 +210,33 @@ void inorder(Node *root)
 */
 void postorder(Node *root)
 {
-    // base condition
-    if (root == NULL)
-    {
+    if (root == NULL) {
+        printf("Tree is empty.\n");
         return;
     }
-    postorder(root->left);
-    postorder(root->right);
-    printf("%d ", root->info);
+  
+    int top = -1;                  
+    struct Node* stack[SIZE];
+    struct Node* ptr = root;
+    do{
+        while(ptr!=NULL){
+            if(ptr->right)
+                stack[++top] = ptr->right;
+            stack[++top] = ptr;
+            ptr = ptr->left;
+        }
+        ptr = stack[top];                                    
+        top--;
+        if(ptr->right && top>=0 && ptr->right == stack[top]){
+            top--;
+            stack[++top] = ptr;
+            ptr = ptr->right;
+        }
+        else{
+            printf("%d ",ptr->info);
+            ptr = NULL;
+        }
+    }while (top>=0);
 }
 
 void mainMenu()

@@ -1,6 +1,6 @@
 /*  ---------------PROBLEM STATEMENT ---------------
     Make a menu driven program to perform various sorting techniques
-    -insertion, merge, heap, quick, counting, radix, bucket.
+    -insertion, merge, quick.
 */
 
 #include <stdio.h>
@@ -82,11 +82,6 @@ void mergeSort(int arr[], int low, int high){
     }
 }
 
-void heapSort(int arr[], int n){
-    printf("NOT done yet\n");
-
-}
-
 int partition(int arr[], int l, int h){
     int pivot = arr[l];
     int i = l+1;
@@ -123,23 +118,6 @@ void quickSort(int arr[],int l,int h){
     }
 }
 
-void countingSort(int arr[], int n){
-    printf("NOT done yet\n");
-    
-}
-
-void radixSort(int arr[], int n){
-    printf("NOT done yet\n");
-    
-}
-
-void bucketSort(int arr[], int n){
-    printf("NOT done yet\n");
-    
-}
-
-
-
 void mainMenu()
 {
     int choice;
@@ -151,7 +129,7 @@ void mainMenu()
     {
         printf("\n************* MAIN MENU ****************\n");
         printf("\nChoose any of the following Sorting technique:");
-        printf("\n1. Insertion Sort\n2. Merge Sort\n3. Heap Sort\n4. Quick Sort\n5. Counting Sort\n6. Radix Sort\n7. Bucket Sort\n8. Exit");
+        printf("\n1. Insertion Sort\n2. Merge Sort\n3. Quick Sort\n4. Exit\n");
         printf("\n\nEnter the choice: ");
         scanf("%d", &choice);
         switch (choice)
@@ -183,46 +161,10 @@ void mainMenu()
             for(int i = 0; i < n; i++){
                 scanf("%d", &arr[i]);
             }
-            
-            break;
-        case 4:
-            printf("Enter the size of the array : ");
-            scanf("%d", &n);
-            printf("Enter the Value of the array : ");
-            for(int i = 0; i < n; i++){
-                scanf("%d", &arr[i]);
-            }
             quickSort(arr,0,n-1);
             display(arr,n);
             break;
-        case 5:
-            printf("Enter the size of the array : ");
-            scanf("%d", &n);
-            printf("Enter the Value of the array : ");
-            for(int i = 0; i < n; i++){
-                scanf("%d", &arr[i]);
-            }
-            insertionSort(arr,n);
-            break;
-        case 6:
-            printf("Enter the size of the array : ");
-            scanf("%d", &n);
-            printf("Enter the Value of the array : ");
-            for(int i = 0; i < n; i++){
-                scanf("%d", &arr[i]);
-            }
-            insertionSort(arr,n);
-            break;
-        case 7:
-            printf("Enter the size of the array : ");
-            scanf("%d", &n);
-            printf("Enter the Value of the array : ");
-            for(int i = 0; i < n; i++){
-                scanf("%d", &arr[i]);
-            }
-            insertionSort(arr,n);
-            break;
-        case 8:
+        case 4:
             printf("\nAre you sure you want to exit program? (y/n) : ");
             scanf(" %c", &c);
             if (c == 'y')
