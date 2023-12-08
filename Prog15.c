@@ -35,9 +35,7 @@ void merge(int arr[], int low, int mid, int high) {
     int i = low;
     int j = mid + 1;
     int k = low;
-    
-    int n = high - low + 1;
-    int ans[n];
+    int ans[100];
 
     while (i <= mid && j <= high) {
         if (arr[i] < arr[j]) {
@@ -130,7 +128,7 @@ void mainMenu()
         printf("\n************* MAIN MENU ****************\n");
         printf("\nChoose any of the following Sorting technique:");
         printf("\n1. Insertion Sort\n2. Merge Sort\n3. Quick Sort\n4. Exit\n");
-        printf("\n\nEnter the choice: ");
+        printf("Enter the choice: ");
         scanf("%d", &choice);
         switch (choice)
         {
